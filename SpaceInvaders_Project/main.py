@@ -90,7 +90,7 @@ class Bullets(pygame.sprite.Sprite):
         if self.rect.bottom < 50:  # kills the bullets after bullet bottom  reaching 50 pixels below the top
             self.kill()
         if pygame.sprite.spritecollide(self, aliens_group, True): # it is an inbuilt function to detect collision
-            self.kill() 
+            self.kill() # kills the bullet also when there is a collison btw alien and bullet
 
 # create Aliens class
 class Aliens(pygame.sprite.Sprite):
@@ -124,6 +124,10 @@ class Alien_Bullets(pygame.sprite.Sprite):
         self.rect.y += 2  # it will keep moving the bullets after creation of it by pressing spacebar
         if self.rect.top > screen_height:  # kills the bullets after bullet bottom  reaching 50 pixels below the top
             self.kill()
+        if pygame.sprite.spritecollide(self, spaceship_group, False): # False = we dnt want the spaceship to get destroyed completely in just one bullet
+            self.kill()
+            # reduce spaceship health
+            spaceship.health_remaining -= 1 # using spaceship object we are reducing health
 
 
 # create sprite groups
