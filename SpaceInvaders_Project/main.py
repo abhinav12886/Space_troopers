@@ -71,6 +71,9 @@ class Spaceship(pygame.sprite.Sprite):  # child class of Sprite class
             Bullets_group.add(bullet) # and add it to the group.
             self.last_shot = time_now
 
+        # update mask
+        self.mask = pygame.mask.from_surface(self.image)  # this will remove the transparent rectangle behind the image and only when the bullet will hit the spaceship body only then the health will reduce
+
         # draw health bar
         pygame.draw.rect(screen, red, (self.rect.x, (self.rect.bottom+2), self.rect.width, 8))
         if self.health_remaining > 0:
@@ -124,7 +127,7 @@ class Alien_Bullets(pygame.sprite.Sprite):
         self.rect.y += 2  # it will keep moving the bullets after creation of it by pressing spacebar
         if self.rect.top > screen_height:  # kills the bullets after bullet bottom  reaching 50 pixels below the top
             self.kill()
-        if pygame.sprite.spritecollide(self, spaceship_group, False): # False = we dnt want the spaceship to get destroyed completely in just one bullet
+        if pygame.sprite.spritecollide(self, spaceship_group, False, pygame.sprite.collide_mask): # False = we dnt want the spaceship to get destroyed completely in just one bullet
             self.kill()
             # reduce spaceship health
             spaceship.health_remaining -= 1 # using spaceship object we are reducing health
